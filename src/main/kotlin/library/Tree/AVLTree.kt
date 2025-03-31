@@ -1,24 +1,27 @@
-package library.Tree
+package org.example.library.Tree
 
-import library.NodePackage.AVLNode
+import org.example.library.NodePackage.AVLNode
 import kotlin.math.max
 
-class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
+public class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
     private var root: AVLNode<K, T>? = null
     private var size: Int = 0
 
+    // Получает высоту узла
     private fun getHeight(node: AVLNode<K, T>?): Int {
         return node?.height ?: -1
     }
-
+    // Обновляет высоту узла
     private fun updateHeight(node: AVLNode<K, T>?) {
         node?.height = max(getHeight(node?.left), getHeight(node?.right)) + 1
     }
 
+    // Проверяет сбалансированость дерева
     private fun balance(node: AVLNode<K, T>?): Int {
         return if (node == null) 0 else getHeight(node.left) - getHeight(node.right)
     }
 
+    // Делает правый поворот
     private fun rightRotation(node: AVLNode<K, T>?): AVLNode<K, T>? {
         val leftNode = node?.left
         val rightOfLeftNode = leftNode?.right
@@ -32,6 +35,7 @@ class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
         return leftNode
     }
 
+    // Делает левый поворот
     private fun leftRotation(node: AVLNode<K, T>?): AVLNode<K, T>? {
         val rightNode = node?.right
         val leftOfRightNode = rightNode?.left
@@ -45,6 +49,7 @@ class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
         return rightNode
     }
 
+    // Балансирует дерево для разных случаев (левый правый и правый левый поворот)
     private fun balanceRotation(node: AVLNode<K, T>?): AVLNode<K, T>? {
         if (node == null) return null
         val balance = balance(node)
@@ -78,6 +83,7 @@ class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
             node.value = value;
             return node
         }
+        // Балансирует дерево после добавлнения узла
         updateHeight(node)
         return balanceRotation(node)
     }
@@ -109,6 +115,7 @@ class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
                 }
             }
         }
+        // Балансирует дерево после удаления узла
         updateHeight(node)
         return balanceRotation(node)
 

@@ -1,7 +1,5 @@
-package library.NodePackage
-
-import kotlin.math.max
-
+package org.example.library.NodePackage
+// Класс реализующий узел AVL дерева поиска
 class AVLNode<K : Comparable<K>, T>(
     key: K,
     value: T,

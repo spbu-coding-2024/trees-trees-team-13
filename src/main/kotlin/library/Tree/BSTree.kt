@@ -1,11 +1,11 @@
-package library.Tree
+package org.example.library.Tree
 
-import library.NodePackage.BSTNode
-import library.NodePackage.Node
+import org.example.library.NodePackage.BSTNode
 
 class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
     private var root: BSTNode<K, T>? = null
     private var size: Int = 0
+
 
     override fun insert(key: K, value: T, node: BSTNode<K, T>?) {
         if (node != null) {
@@ -26,6 +26,7 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
         } else insert(key, value, root)
     }
 
+    // удвление узла через рекурсию
     private fun remove(key: K, node: BSTNode<K, T>?): BSTNode<K, T>? {
         if (node == null) return null
         else if (node.key < key) node.right = remove(key, node.right)
@@ -62,7 +63,7 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
     override fun find(key: K): T? {
         return findNode(key)?.value
     }
-
+    // поиск узла
     private fun findNode(key: K): BSTNode<K, T>? {
         if (root == null) {
             return null
@@ -90,7 +91,7 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
     override fun min(): T? {
         return minNode(root)?.value
     }
-
+    // поиск узна с максимальным узлом
     private fun maxNode(root: BSTNode<K, T>?): BSTNode<K, T>? {
         var root_copy = root
         while (root_copy?.right != null)
@@ -145,5 +146,4 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
     operator fun iterator(): Iterate {
         return this.Iterate()
     }
-
 }

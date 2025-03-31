@@ -1,5 +1,5 @@
-package library.NodePackage
-
+package org.example.library.NodePackage
+// Класс реализующий узел бинарного дерева поиска
 class BSTNode<K : Comparable<K>, T>(
     key: K,
     value: T,

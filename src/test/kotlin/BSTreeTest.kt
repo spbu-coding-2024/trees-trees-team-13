@@ -1,8 +1,10 @@
 package test
-import library.Tree.BSTree
+
+import org.example.library.Tree.BSTree
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import kotlin.random.Random
 
 class BSTreeTest {
 
@@ -14,19 +16,19 @@ class BSTreeTest {
     }
 
     @Test
-    fun `find should return null if a node with the given key does not exist`() {
+    fun find_should_return_null_if_a_node_with_the_given_key_does_not_exist() {
         assertEquals(null, bst.find(5))
     }
 
     @Test
-    fun `insert should add a node with the given key and value`() {
+    fun insert_should_add_a_node_with_the_given_key_and_value() {
         bst.insert(5, "5")
         assertEquals("5", bst.find(5))
         assertEquals(1, bst.getSize())
     }
 
     @Test
-    fun `delete should remove a node with the given key if it exists`() {
+    fun delete_should_remove_a_node_with_the_given_key_if_it_exists() {
         bst.insert(5, "five")
         assertEquals("five", bst.find(5))
         bst.delete(5)
@@ -35,7 +37,7 @@ class BSTreeTest {
     }
 
     @Test
-    fun `delete should not remove anything if the key does not exist`() {
+    fun delete_should_not_remove_anything_if_the_key_does_not_exist() {
         bst.insert(5, "5")
         bst.delete(10)
         assertEquals("5", bst.find(5))
@@ -43,7 +45,7 @@ class BSTreeTest {
     }
 
     @Test
-    fun `delete left child`() {
+    fun delete_with_the_left_child() {
         bst.insert(5, "5")
         bst.insert(3, "3")
         bst.delete(5)
@@ -53,17 +55,17 @@ class BSTreeTest {
     }
 
     @Test
-    fun `delete right child`() {
+    fun delete_with_the_right_child() {
         bst.insert(5, "5")
         bst.insert(7, "7")
         bst.delete(5)
         assertEquals(null, bst.find(5))
-        assertEquals("7",bst.find(7))
+        assertEquals("7", bst.find(7))
         assertEquals(1, bst.getSize())
     }
 
     @Test
-    fun `delete two children`() {
+    fun delete_with_two_children() {
         bst.insert(5, "5")
         bst.insert(3, "3")
         bst.insert(7, "7")
@@ -75,13 +77,13 @@ class BSTreeTest {
     }
 
     @Test
-    fun `find should return 5 if a node with the given key exists`() {
+    fun find_should_return_5_if_a_node_with_the_given_key_exists() {
         bst.insert(5, "5")
         assertEquals("5", bst.find(5))
     }
 
     @Test
-    fun `min should return the minimum value in the tree`() {
+    fun min_should_return_the_minimum_value_in_the_tree() {
         bst.insert(5, "5")
         bst.insert(3, "3")
         bst.insert(7, "7")
@@ -89,12 +91,12 @@ class BSTreeTest {
     }
 
     @Test
-    fun `min should return null if the tree is empty`() {
+    fun min_should_return_null_if_the_tree_is_empty() {
         assertNull(bst.min())
     }
 
     @Test
-    fun `max should return the maximum value in the tree`() {
+    fun max_should_return_the_maximum_value_in_the_tree() {
         bst.insert(5, "5")
         bst.insert(3, "3")
         bst.insert(7, "7")
@@ -102,12 +104,12 @@ class BSTreeTest {
     }
 
     @Test
-    fun `max should return null if the tree is empty`() {
+    fun max_should_return_null_if_the_tree_is_empty() {
         assertNull(bst.max())
     }
 
     @Test
-    fun `size should return the number of nodes in the tree`() {
+    fun size_should_return_the_number_of_nodes_in_the_tree() {
         assertEquals(0, bst.getSize())
         bst.insert(5, "5")
         assertEquals(1, bst.getSize())
@@ -120,20 +122,32 @@ class BSTreeTest {
     }
 
     @Test
-    fun `size should return 0 for an empty tree`() {
+    fun size_should_return_0_for_an_empty_tree() {
         assertEquals(0, bst.getSize())
     }
+
     @Test
-    fun hz(){
+    fun checking_for_additions_and_deletions() {
         var mas = listOf(5, 2, 7, 3, -5, 6, 8)
-        for (i in 0..<mas.size){
+        for (i in 0..<mas.size) {
             bst.insert(mas[i], "${mas[i]}")
         }
         assertEquals(7, bst.getSize())
-        bst.printTree()
-        for (i in 0..<mas.size){
-            println("${mas[i]} ${bst.find(mas[i])}")
-            bst.delete(mas[i])
+        for (i in bst) {
+            bst.delete(i.key)
+        }
+        assertEquals(0, bst.getSize())
+    }
+
+    @Test
+    fun checking_on_a_large_amount_of_data() {
+        val data = IntArray(10000) { Random.nextInt(-10000, 10000) }
+        for (i in data) {
+            bst.insert(i, i.toString())
+        }
+        assertEquals(data.toSet().size, bst.getSize())
+        for (el in bst) {
+            bst.delete(el.key)
         }
         assertEquals(0, bst.getSize())
     }
