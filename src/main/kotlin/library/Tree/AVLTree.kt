@@ -16,7 +16,7 @@ public class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
         node?.height = max(getHeight(node?.left), getHeight(node?.right)) + 1
     }
 
-    // Проверяет сбалансированость дерева
+    // Проверяет сбалансированность дерева
     private fun balance(node: AVLNode<K, T>?): Int {
         return if (node == null) 0 else getHeight(node.left) - getHeight(node.right)
     }
@@ -68,10 +68,10 @@ public class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
         return node
     }
     
-    override fun insert(key: K, value: T, node: AVLNode<K, T>?) {
+    override fun insert(key: K, value: T) {
         root = insertRecursion(key, value, root)
     }
-
+    // рекурсивное добавление нового узла с балансировкой
     private fun insertRecursion(key: K, value: T, node: AVLNode<K, T>?): AVLNode<K, T>? {
         if (node == null) {
             size++
@@ -83,12 +83,12 @@ public class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
             node.value = value;
             return node
         }
-        // Балансирует дерево после добавлнения узла
+        // Балансирует дерево после добавления узла
         updateHeight(node)
         return balanceRotation(node)
     }
 
-
+    // рекурсивное удаление с балансировкой
     private fun remove(key: K, node: AVLNode<K, T>?): AVLNode<K, T>? {
         if (node == null) return null
         else if (node.key < key) node.right = remove(key, node.right)
@@ -182,12 +182,12 @@ public class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
         return size
     }
 
-    inner class Iterate : Iterator<AVLNode<K, T>> {
-        var array: ArrayDeque<AVLNode<K, T>> = ArrayDeque()
+    inner class Iterate : Iterator<Pair<K, T>> {
+        var array: ArrayDeque<Pair<K, T>> = ArrayDeque()
         var f: Boolean = true
 
-        override fun next(): AVLNode<K, T> {
-            return array.removeAt(0)
+        override fun next(): Pair<K, T> {
+            return array.removeFirst()
         }
 
         override fun hasNext(): Boolean {
@@ -201,7 +201,7 @@ public class AVLTree<K : Comparable<K>, T> : BinaryTree<K, T, AVLNode<K, T>> {
         fun getNode(node: AVLNode<K, T>?) {
             if (node != null) {
                 getNode(node.left)
-                array.add(AVLNode(node.key, node.value))
+                array.add(Pair(node.key, node.value))
                 getNode(node.right)
             }
         }

@@ -133,7 +133,7 @@ class AVLTreeTest {
         }
         assertEquals(7, avlt.getSize())
         for (i in avlt) {
-            avlt.delete(i.key)
+            avlt.delete(i.first)
         }
         assertEquals(0, avlt.getSize())
     }
@@ -146,7 +146,7 @@ class AVLTreeTest {
         }
         assertEquals(data.toSet().size, avlt.getSize())
         for (el in avlt) {
-            avlt.delete(el.key)
+            avlt.delete(el.first)
         }
         assertEquals(0, avlt.getSize())
     }

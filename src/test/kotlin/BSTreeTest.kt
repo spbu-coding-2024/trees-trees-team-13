@@ -134,7 +134,7 @@ class BSTreeTest {
         }
         assertEquals(7, bst.getSize())
         for (i in bst) {
-            bst.delete(i.key)
+            bst.delete(i.first)
         }
         assertEquals(0, bst.getSize())
     }
@@ -147,7 +147,7 @@ class BSTreeTest {
         }
         assertEquals(data.toSet().size, bst.getSize())
         for (el in bst) {
-            bst.delete(el.key)
+            bst.delete(el.first)
         }
         assertEquals(0, bst.getSize())
     }

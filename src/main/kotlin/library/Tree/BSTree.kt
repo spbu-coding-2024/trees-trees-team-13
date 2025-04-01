@@ -7,26 +7,30 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
     private var size: Int = 0
 
 
-    override fun insert(key: K, value: T, node: BSTNode<K, T>?) {
+    private fun add(key: K, value: T, node: BSTNode<K, T>?) {
         if (node != null) {
             if (key < node.key) {
                 if (node.left == null) {
                     node.left = BSTNode(key, value)
                     size += 1
-                } else insert(key, value, node.left)
+                } else add(key, value, node.left)
             } else if (key > node.key) {
                 if (node.right == null) {
                     node.right = BSTNode(key, value)
                     size += 1
-                } else insert(key, value, node.right)
+                } else add(key, value, node.right)
             }
         } else if (root == null) {
             size += 1
             root = BSTNode(key, value)
-        } else insert(key, value, root)
+        } else add(key, value, root)
     }
 
-    // удвление узла через рекурсию
+    override fun insert(key: K, value: T) {
+        add(key, value, root)
+    }
+
+    // удаление узла через рекурсию
     private fun remove(key: K, node: BSTNode<K, T>?): BSTNode<K, T>? {
         if (node == null) return null
         else if (node.key < key) node.right = remove(key, node.right)
@@ -63,6 +67,7 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
     override fun find(key: K): T? {
         return findNode(key)?.value
     }
+
     // поиск узла
     private fun findNode(key: K): BSTNode<K, T>? {
         if (root == null) {
@@ -91,7 +96,8 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
     override fun min(): T? {
         return minNode(root)?.value
     }
-    // поиск узна с максимальным узлом
+
+    // поиск узла с максимальным узлом
     private fun maxNode(root: BSTNode<K, T>?): BSTNode<K, T>? {
         var root_copy = root
         while (root_copy?.right != null)
@@ -118,12 +124,12 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
         return size
     }
 
-    inner class Iterate : Iterator<BSTNode<K, T>> {
-        var array: ArrayDeque<BSTNode<K, T>> = ArrayDeque()
+    inner class Iterate : Iterator<Pair<K, T>> {
+        var array: ArrayDeque<Pair<K, T>> = ArrayDeque()
         var f: Boolean = true
 
-        override fun next(): BSTNode<K, T> {
-            return array.removeAt(0)
+        override fun next(): Pair<K, T> {
+            return array.removeFirst()
         }
 
         override fun hasNext(): Boolean {
@@ -137,7 +143,7 @@ class BSTree<K : Comparable<K>, T> : BinaryTree<K, T, BSTNode<K, T>> {
         fun getNode(node: BSTNode<K, T>?) {
             if (node != null) {
                 getNode(node.left)
-                array.add(BSTNode(node.key, node.value))
+                array.add(Pair(node.key, node.value))
                 getNode(node.right)
             }
         }
