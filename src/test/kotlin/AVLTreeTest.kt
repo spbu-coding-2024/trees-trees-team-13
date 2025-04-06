@@ -143,10 +143,12 @@ class AVLTreeTest {
         val data = IntArray(10000) { Random.nextInt(-10000, 10000) }
         for (i in data) {
             avlt.insert(i, i.toString())
+            assertEquals(i.toString(), avlt.find(i))
         }
         assertEquals(data.toSet().size, avlt.getSize())
         for (el in avlt) {
             avlt.delete(el.first)
+            assertNull(avlt.find(el.first))
         }
         assertEquals(0, avlt.getSize())
     }

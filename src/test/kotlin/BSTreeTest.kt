@@ -144,10 +144,12 @@ class BSTreeTest {
         val data = IntArray(10000) { Random.nextInt(-10000, 10000) }
         for (i in data) {
             bst.insert(i, i.toString())
+            assertEquals(i.toString(), bst.find(i))
         }
         assertEquals(data.toSet().size, bst.getSize())
         for (el in bst) {
             bst.delete(el.first)
+            assertNull(bst.find(el.first))
         }
         assertEquals(0, bst.getSize())
     }
